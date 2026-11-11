@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Análisis de texto en vivo · estilo MonkeyLearn</title>
+<style>
+/*CSS*/
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:15px;line-height:1.5;font-family:inherit;resize:vertical}
+textarea:focus{outline:2px solid var(--acc);border-color:transparent}
+.acciones{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+button{background:var(--acc);color:#fff;border:0;border-radius:9px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer}
+button:hover{filter:brightness(1.1)}button.sec{background:#eef2ff;color:#3730a3}
+button.mini{padding:5px 11px;font-size:12px}button:disabled{opacity:.5;cursor:wait}
+label.vivo{font-size:14px;color:var(--sub);display:flex;gap:6px;align-items:center;cursor:pointer}
+#estado{margin:10px 0 0;min-height:22px}
+select{border:1px solid var(--line);border-radius:7px;padding:4px 6px;font-size:13px;background:#fff}
+.vacio{color:var(--sub);padding:18px 0}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 20px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s}
+#toast.on{opacity:1}
+.barra .t i{transition:width .35s}
+td small{color:var(--sub)}
+.tabla-scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Análisis de texto en vivo</h1>
+  <p>Escribe comentarios y mira cómo cambian las gráficas. Estilo MonkeyLearn: sentimiento, temas y palabras clave.</p>
+</header>
+<main>
+
+<section>
+  <div class="etapa">Paso 1</div>
+  <h2>Escribe tus comentarios</h2>
+  <p class="sub">Un comentario por línea. Pega los que quieras: reseñas, mensajes de clientes, respuestas de una encuesta.</p>
+  <textarea id="txt" placeholder="Ejemplo:&#10;La atención fue excelente&#10;El pedido llegó roto y muy tarde&#10;Compré el plan mensual con tarjeta"></textarea>
+  <div class="acciones">
+    <button id="btn">Analizar</button>
+    <button id="ej" class="sec">Cargar ejemplos</button>
+    <button id="lim" class="sec">Limpiar</button>
+    <button id="csv" class="sec">Descargar CSV</button>
+    <label class="vivo"><input type="checkbox" id="vivo" checked> Analizar mientras escribo</label>
+  </div>
+  <p id="estado" class="sub"></p>
+</section>
+
+<div id="panel">
+  <section><div class="etapa">Resumen</div><h2>Lo más importante</h2><p class="sub">Se actualiza con cada análisis.</p><div class="cards" id="kpis"></div></section>
+
+  <section><div class="etapa">Etapa 1</div><h2>¿Cómo se sienten los clientes?</h2>
+    <p class="sub">El modelo clasifica cada comentario como positivo, neutro o negativo.</p><div id="donut"></div></section>
+
+  <section><div class="etapa">Etapa 2</div><h2>¿De qué hablan?</h2>
+    <p class="sub">Cada comentario se asigna a un tema. A la derecha se cruza el tema con el sentimiento: más color significa más comentarios.</p>
+    <div class="grid3" style="grid-template-columns:1fr 1.4fr"><div id="temas"></div><div id="cruce"></div></div></section>
+
+  <section><div class="etapa">Visualizaciones</div><h2>Lectura visual del análisis</h2>
+    <p class="sub">Confianza del modelo, composición de temas y palabras frecuentes en gráficas tipo matplotlib.</p>
+    <div class="graficas">
+      <div class="grafica"><h3>Confianza por comentario</h3><div id="confianza"></div></div>
+      <div class="grafica"><h3>Sentimiento dentro de cada tema</h3><div id="temas-apilados"></div></div>
+      <div class="grafica"><h3>Palabras clave principales</h3><div id="palabras-barras"></div></div>
+      <div class="grafica"><h3>Porcentaje por sentimiento</h3><div id="sentimientos-barras"></div></div>
+      <div class="grafica"><h3>Histograma de confianza</h3><div id="histograma"></div></div>
+      <div class="grafica"><h3>Longitud de los comentarios</h3><div id="longitudes"></div></div>
+    </div>
+  </section>
+
+  <section><div class="etapa">Etapa 3</div><h2>Palabras que más se repiten</h2>
+    <p class="sub">El número es cuántas veces aparece cada palabra.</p><div class="grid3" id="claves"></div></section>
+
+  <section><div class="etapa">Detalle · enseñar al modelo</div><h2>Cada comentario clasificado</h2>
+    <p class="sub">¿El modelo se equivocó? Cambia la etiqueta correcta y pulsa <b>Enseñar</b>: guarda el ejemplo y el modelo se vuelve a entrenar. Es lo que MonkeyLearn llamaba entrenar con clics.</p>
+    <div class="tabla-scroll"><table id="tabla"></table></div></section>
+</div>
+
+<section>
+  <div class="etapa">Contexto</div><h2>¿Qué era MonkeyLearn?</h2>
+  <p class="sub" style="margin:0">Plataforma web de análisis de texto sin programar. Medallia la adquirió en 2022 y el servicio independiente se cerró en 2023. Esta página reproduce sus funciones principales con Python y scikit-learn, todo en tu computador.</p>
+</section>
+
+</main>
+<div id="toast"></div>
+
+<script>
+const COL = {positivo: '#16a34a', neutro: '#64748b', negativo: '#dc2626'};
+const SENT = ['positivo', 'neutro', 'negativo'];
+const TEMAS = ['servicio', 'envio', 'precio', 'producto'];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const pct = x => Math.round(x * 100) + '%';
+
+let ultimo = null, temporizador = null, secuencia = 0;
+
+async function api(ruta, cuerpo) {
+  const r = await fetch(ruta, {
+    method: cuerpo ? 'POST' : 'GET',
+    headers: {'Content-Type': 'application/json'},
+    body: cuerpo ? JSON.stringify(cuerpo) : undefined
+  });
+  const datos = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(datos.error || ('Error ' + r.status));
+  return datos;
+}
+
+function lineas() {
+  return $('txt').value.split('\n').map(s => s.trim()).filter(Boolean);
+}
+
+function avisar(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(avisar.t);
+  avisar.t = setTimeout(() => t.classList.remove('on'), 3200);
+}
+
+async function analizar() {
+  const textos = lineas();
+  const mia = ++secuencia;
+  if (!textos.length) {
+    ultimo = null;
+    pintarVacio();
+    $('estado').textContent = 'Escribe al menos un comentario.';
+    return;
+  }
+  $('estado').textContent = 'Analizando…';
+  try {
+    const d = await api('/api/analizar', {textos});
+    if (mia !== secuencia) return;  // llegó una respuesta más nueva
+    ultimo = d;
+    pintar(d);
+    $('estado').textContent = d.resultados.length + (d.resultados.length === 1 ? ' comentario analizado.' : ' comentarios analizados.');
+  } catch (e) {
+    $('estado').textContent = 'Error: ' + e.message;
+  }
+}
+
+function pintarVacio() {
+  $('kpis').innerHTML = '<div class="vacio">Sin datos todavía.</div>';
+  ['donut', 'temas', 'cruce', 'confianza', 'temas-apilados', 'palabras-barras', 'sentimientos-barras', 'histograma', 'longitudes', 'claves'].forEach(id => $(id).innerHTML = '<div class="vacio">Sin datos todavía.</div>');
+  $('tabla').innerHTML = '';
+}
+
+function graficaConfianza(R) {
+  const W = 560, H = 220, left = 48, top = 18, bottom = 34, graphW = W - left - 12, graphH = H - top - bottom;
+  const puntos = campo => R.map((r, i) => {
+    const x = left + graphW * i / Math.max(1, R.length - 1);
+    const y = top + graphH * (1 - r[campo]);
+    return x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ');
+  const grid = [0, .5, 1].map(p => {
+    const y = top + graphH * (1 - p);
+    return '<line x1="' + left + '" y1="' + y + '" x2="' + (W - 12) + '" y2="' + y + '" stroke="#e2e8f0"/><text x="4" y="' + (y + 4) + '" font-size="11" fill="#64748b">' + (p * 100) + '%</text>';
+  }).join('');
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Confianza por comentario">' + grid +
+    '<polyline points="' + puntos('conf_sent') + '" fill="none" stroke="' + COL.positivo + '" stroke-width="3"/>' +
+    '<polyline points="' + puntos('conf_tema') + '" fill="none" stroke="#4f46e5" stroke-width="3"/>' +
+    '<text x="' + left + '" y="' + (H - 8) + '" font-size="11" fill="#64748b">Comentario</text>' +
+    '<circle cx="' + (W - 150) + '" cy="14" r="4" fill="' + COL.positivo + '"/><text x="' + (W - 142) + '" y="18" font-size="11">Sentimiento</text>' +
+    '<circle cx="' + (W - 62) + '" cy="14" r="4" fill="#4f46e5"/><text x="' + (W - 54) + '" y="18" font-size="11">Tema</text></svg>';
+}
+
+function graficaTemas(R, nTema) {
+  const W = 560, left = 110, top = 22, barH = 28, maximo = Math.max(1, ...nTema.map(x => x[1]));
+  let svg = '<svg viewBox="0 0 ' + W + ' ' + Math.max(170, top + nTema.length * 40) + '" role="img" aria-label="Temas divididos por sentimiento">';
+  SENT.forEach((s, i) => {
+    const x = W - 155 + i * 58;
+    svg += '<circle cx="' + x + '" cy="14" r="4" fill="' + COL[s] + '"/><text x="' + (x + 7) + '" y="18" font-size="10">' + s.slice(0, 4) + '</text>';
+  });
+  nTema.forEach(([tema, total], i) => {
+    const y = top + i * 40;
+    let x = left;
+    svg += '<text x="0" y="' + (y + 19) + '" font-size="12">' + esc(cap(tema)) + '</text>';
+    SENT.forEach(s => {
+      const n = R.filter(r => r.tema === tema && r.sentimiento === s).length;
+      const w = (W - left - 12) * n / maximo;
+      if (n) {
+        svg += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + barH + '" rx="4" fill="' + COL[s] + '"/>';
+        x += w;
+      }
+    });
+  });
+  return svg + '</svg>';
+}
+
+function graficaPalabras(lista) {
+  const W = 560, left = 120, maximo = Math.max(1, ...(lista || []).map(x => x[1]));
+  const filas = (lista || []).slice(0, 8).map(([palabra, n], i) => {
+    const y = 10 + i * 28, w = (W - left - 20) * n / maximo;
+    return '<text x="0" y="' + (y + 16) + '" font-size="12">' + esc(palabra) + '</text><rect x="' + left + '" y="' + y + '" width="' + w + '" height="22" rx="4" fill="#4f46e5"/><text x="' + (left + w + 7) + '" y="' + (y + 16) + '" font-size="12" fill="#64748b">' + n + '</text>';
+  }).join('');
+  return '<svg viewBox="0 0 ' + W + ' ' + Math.max(170, 10 + Math.min(8, (lista || []).length) * 28) + '" role="img" aria-label="Palabras clave más frecuentes">' + filas + '</svg>';
+}
+
+function graficaSentimientos(nSent, total) {
+  const filas = SENT.map((s, i) => {
+    const porcentaje = total ? 100 * nSent[s] / total : 0, y = 16 + i * 42;
+    return '<text x="0" y="' + (y + 17) + '" font-size="12">' + cap(s) + '</text><rect x="95" y="' + y + '" width="390" height="24" rx="5" fill="#eef2ff"/><rect x="95" y="' + y + '" width="' + (3.9 * porcentaje) + '" height="24" rx="5" fill="' + COL[s] + '"/><text x="' + (100 + 3.9 * porcentaje) + '" y="' + (y + 17) + '" font-size="12">' + Math.round(porcentaje) + '%</text>';
+  }).join('');
+  return '<svg viewBox="0 0 560 150" role="img" aria-label="Porcentaje por sentimiento">' + filas + '</svg>';
+}
+
+function graficaHistograma(R) {
+  const grupos = [0, 0, 0, 0, 0];
+  R.forEach(r => grupos[Math.min(4, Math.floor(r.conf_sent * 5))]++);
+  const maximo = Math.max(1, ...grupos);
+  const barras = grupos.map((n, i) => {
+    const alto = 125 * n / maximo, x = 35 + i * 100;
+    return '<rect x="' + x + '" y="' + (145 - alto) + '" width="62" height="' + alto + '" rx="5" fill="#4f46e5"/><text x="' + (x + 31) + '" y="163" text-anchor="middle" font-size="11">' + (i * 20) + '-' + ((i + 1) * 20) + '%</text><text x="' + (x + 31) + '" y="' + (138 - alto) + '" text-anchor="middle" font-size="11">' + n + '</text>';
+  }).join('');
+  return '<svg viewBox="0 0 560 180" role="img" aria-label="Histograma de confianza"><line x1="25" y1="145" x2="540" y2="145" stroke="#cbd5e1"/>' + barras + '</svg>';
+}
+
+function graficaLongitudes(R) {
+  const grupos = [0, 0, 0, 0], etiquetas = ['0-9', '10-19', '20-29', '30+'];
+  R.forEach(r => grupos[Math.min(3, Math.floor(r.texto.split(/\s+/).length / 10))]++);
+  const maximo = Math.max(1, ...grupos);
+  const barras = grupos.map((n, i) => {
+    const alto = 125 * n / maximo, x = 55 + i * 115;
+    return '<rect x="' + x + '" y="' + (145 - alto) + '" width="70" height="' + alto + '" rx="5" fill="#16a34a"/><text x="' + (x + 35) + '" y="163" text-anchor="middle" font-size="11">' + etiquetas[i] + ' palabras</text><text x="' + (x + 35) + '" y="' + (138 - alto) + '" text-anchor="middle" font-size="11">' + n + '</text>';
+  }).join('');
+  return '<svg viewBox="0 0 560 180" role="img" aria-label="Longitud de los comentarios"><line x1="35" y1="145" x2="540" y2="145" stroke="#cbd5e1"/>' + barras + '</svg>';
+}
+
+function pintar(d) {
+  const R = d.resultados, total = R.length;
+  const cuenta = (campo, valor) => R.filter(r => r[campo] === valor).length;
+  const nSent = Object.fromEntries(SENT.map(s => [s, cuenta('sentimiento', s)]));
+  const p = n => total ? Math.round(100 * n / total) : 0;
+
+  // KPIs
+  $('kpis').innerHTML = [
+    ['<b>' + total + '</b>', 'comentarios analizados'],
+    ['<b style="color:' + COL.positivo + '">' + p(nSent.positivo) + '%</b>', 'positivos'],
+    ['<b style="color:' + COL.negativo + '">' + p(nSent.negativo) + '%</b>', 'negativos'],
+    ['<b>' + pct(d.acc_sent) + '</b>', 'exactitud del modelo de sentimiento (validación cruzada)'],
+    ['<b>' + pct(d.acc_tema) + '</b>', 'exactitud del modelo de temas · ' + d.n_entrena + ' ejemplos']
+  ].map(([a, b]) => '<div class="kpi">' + a + '<span>' + b + '</span></div>').join('');
+
+  // Donut
+  let ini = 0;
+  const partes = SENT.map(s => {
+    const fin = ini + (total ? 100 * nSent[s] / total : 0);
+    const t = COL[s] + ' ' + ini.toFixed(2) + '% ' + fin.toFixed(2) + '%';
+    ini = fin;
+    return t;
+  });
+  $('donut').innerHTML =
+    '<div class="fila"><div class="donut" style="background:conic-gradient(' + partes.join(',') + ')"></div><div class="leyenda">' +
+    SENT.map(s => '<div><span class="dot" style="background:' + COL[s] + '"></span><b>' + cap(s) + '</b>: ' + nSent[s] + ' (' + p(nSent[s]) + '%)</div>').join('') +
+    '</div></div>';
+
+  // Temas (barras)
+  const nTema = TEMAS.map(t => [t, cuenta('tema', t)]).sort((a, b) => b[1] - a[1]);
+  const mx = Math.max(1, ...nTema.map(x => x[1]));
+  $('temas').innerHTML = nTema.map(([t, n]) =>
+    '<div class="barra"><span class="n">' + esc(t) + '</span><span class="t"><i style="width:' + (100 * n / mx) + '%"></i></span><span class="v">' + n + '</span></div>'
+  ).join('');
+
+  // Cruce tema x sentimiento
+  let filas = '';
+  nTema.forEach(([t]) => {
+    let celdas = '';
+    SENT.forEach(s => {
+      const n = R.filter(r => r.tema === t && r.sentimiento === s).length;
+      let estilo = '';
+      if (n) {
+        const alfa = Math.min(0.12 + 0.22 * n, 0.9);
+        estilo = 'background:' + COL[s] + Math.round(alfa * 255).toString(16).padStart(2, '0');
+      }
+      celdas += '<td class="c" style="' + estilo + '">' + n + '</td>';
+    });
+    filas += '<tr><td><b>' + cap(esc(t)) + '</b></td>' + celdas + '</tr>';
+  });
+  $('cruce').innerHTML = '<table><tr><th>Tema</th>' + SENT.map(s => '<th>' + cap(s) + '</th>').join('') + '</tr>' + filas + '</table>';
+
+  $('confianza').innerHTML = graficaConfianza(R);
+  $('temas-apilados').innerHTML = graficaTemas(R, nTema);
+  $('palabras-barras').innerHTML = graficaPalabras(d.claves.general);
+  $('sentimientos-barras').innerHTML = graficaSentimientos(nSent, total);
+  $('histograma').innerHTML = graficaHistograma(R);
+  $('longitudes').innerHTML = graficaLongitudes(R);
+
+  // Palabras clave
+  const chips = lista => (lista && lista.length)
+    ? lista.map(([w, n]) => '<span>' + esc(w) + ' · ' + n + '</span>').join('')
+    : '<span class="sub">Sin datos</span>';
+  $('claves').innerHTML = [['general', 'Todos los comentarios'], ['positivo', 'Positivos'], ['negativo', 'Negativos']]
+    .map(([k, t]) => '<div><h3 style="margin:0 0 6px;font-size:15px">' + t + '</h3><div class="chips">' + chips(d.claves[k]) + '</div></div>').join('');
+
+  // Tabla con corrección
+  const opciones = (lista, actual) => lista.map(v => '<option value="' + v + '"' + (v === actual ? ' selected' : '') + '>' + cap(v) + '</option>').join('');
+  $('tabla').innerHTML =
+    '<tr><th>Comentario</th><th>Sentimiento</th><th>Tema</th><th>Etiqueta correcta</th></tr>' +
+    R.map((r, i) =>
+      '<tr data-i="' + i + '"><td>' + esc(r.texto) + '</td>' +
+      '<td><span class="tag" style="background:' + COL[r.sentimiento] + '">' + r.sentimiento + '</span> <small>' + pct(r.conf_sent) + '</small></td>' +
+      '<td>' + esc(r.tema) + ' <small>' + pct(r.conf_tema) + '</small></td>' +
+      '<td><select class="sel-s">' + opciones(SENT, r.sentimiento) + '</select> ' +
+      '<select class="sel-t">' + opciones(TEMAS, r.tema) + '</select> ' +
+      '<button class="mini">Enseñar</button></td></tr>'
+    ).join('');
+}
+
+// Enseñar al modelo (delegación de eventos sobre la tabla)
+$('tabla').addEventListener('click', async ev => {
+  const btn = ev.target.closest('button.mini');
+  if (!btn || !ultimo) return;
+  const fila = btn.closest('tr');
+  const r = ultimo.resultados[Number(fila.dataset.i)];
+  btn.disabled = true;
+  btn.textContent = 'Entrenando…';
+  try {
+    const d = await api('/api/aprender', {
+      texto: r.texto,
+      sentimiento: fila.querySelector('.sel-s').value,
+      tema: fila.querySelector('.sel-t').value
+    });
+    avisar('Aprendido. El modelo ahora tiene ' + d.n_entrena + ' ejemplos.');
+    await analizar();
+  } catch (e) {
+    avisar('No se pudo enseñar: ' + e.message);
+    btn.disabled = false;
+    btn.textContent = 'Enseñar';
+  }
+});
+
+// Controles
+$('btn').addEventListener('click', analizar);
+$('lim').addEventListener('click', () => { $('txt').value = ''; analizar(); $('txt').focus(); });
+$('ej').addEventListener('click', async () => {
+  try {
+    const d = await api('/api/ejemplos');
+    $('txt').value = d.textos.join('\n');
+    analizar();
+  } catch (e) { avisar('Error: ' + e.message); }
+});
+$('txt').addEventListener('input', () => {
+  if (!$('vivo').checked) return;
+  clearTimeout(temporizador);
+  temporizador = setTimeout(analizar, 450);
+});
+$('txt').addEventListener('keydown', ev => {
+  if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); analizar(); }
+});
+$('csv').addEventListener('click', () => {
+  if (!ultimo || !ultimo.resultados.length) { avisar('Primero analiza algún comentario.'); return; }
+  const celda = v => '"' + String(v).replace(/"/g, '""') + '"';
+  const filas = [['texto', 'sentimiento', 'conf_sentimiento', 'tema', 'conf_tema']].concat(
+    ultimo.resultados.map(r => [r.texto, r.sentimiento, r.conf_sent.toFixed(3), r.tema, r.conf_tema.toFixed(3)])
+  );
+  const blob = new Blob(['﻿' + filas.map(f => f.map(celda).join(',')).join('\r\n')], {type: 'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'resultados.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+// Al abrir: cargar los comentarios de ejemplo para que las gráficas no estén vacías
+pintarVacio();
+$('ej').click();
+</script>
+</body>
+</html>

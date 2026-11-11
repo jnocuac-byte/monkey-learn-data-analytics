@@ -1,0 +1,97 @@
+texto,sentimiento,tema
+"Me respondieron por WhatsApp en cinco minutos, muy atentos",positivo,servicio
+"El personal es muy profesional y siempre dispuesto a ayudar",positivo,servicio
+"Resolvieron mi reclamo el mismo día, gracias",positivo,servicio
+"Una experiencia increíble con el equipo de soporte",positivo,servicio
+"La chica de la caja fue muy amable y paciente",positivo,servicio
+"Me explicaron todo con claridad, quedé muy satisfecho",positivo,servicio
+"Gran servicio al cliente, los felicito",positivo,servicio
+"Atención personalizada y cálida, volvería sin dudar",positivo,servicio
+"Mi paquete llegó un día antes y en perfectas condiciones",positivo,envio
+"Muy contento con la rapidez del domicilio",positivo,envio
+"El mensajero me avisó antes de llegar, excelente detalle",positivo,envio
+"Todo llegó completo y bien protegido",positivo,envio
+"Envío gratis y llegó en dos días, genial",positivo,envio
+"La entrega fue puntual como prometieron",positivo,envio
+"Rastreo del pedido muy fácil y entrega veloz",positivo,envio
+"Los precios son muy accesibles comparados con otras tiendas",positivo,precio
+"Aproveché la promoción y fue una ganga",positivo,precio
+"Me parece económico y de buena calidad",positivo,precio
+"Excelente relación calidad precio",positivo,precio
+"Cuotas sin interés, muy conveniente para mi bolsillo",positivo,precio
+"El descuento por pago en línea es fantástico",positivo,precio
+"Un precio increíble, lo volvería a comprar",positivo,precio
+"Es hermoso y resistente, justo lo que buscaba",positivo,producto
+"La batería dura muchísimo, estoy fascinado",positivo,producto
+"Se siente premium, materiales de primera",positivo,producto
+"Funciona de maravilla desde el primer día",positivo,producto
+"El sonido es espectacular, muy buena compra",positivo,producto
+"La pantalla se ve nítida y brillante, me encantó",positivo,producto
+"Lo uso todos los días y sigue como nuevo",positivo,producto
+"Perfecto para mi familia, todos quedaron felices",positivo,producto
+"Tardaron tres días en responderme y no solucionaron nada",negativo,servicio
+"Pasé una hora en la línea de espera para nada",negativo,servicio
+"El vendedor fue muy antipático y poco claro",negativo,servicio
+"No me ayudaron con mi reclamo, qué mala experiencia",negativo,servicio
+"Me cancelaron la cita sin avisar, falta de respeto",negativo,servicio
+"Nadie sabe nada en la oficina, una pérdida de tiempo",negativo,servicio
+"El chat de soporte es inútil, siempre repiten lo mismo",negativo,servicio
+"Pésimo servicio al cliente, no lo recomiendo",negativo,servicio
+"El domicilio llegó una semana tarde y sin disculpas",negativo,envio
+"Me entregaron otro pedido que no era el mío",negativo,envio
+"El paquete llegó mojado y aplastado",negativo,envio
+"La transportadora nunca vino, perdí mi día esperando",negativo,envio
+"Marcaron entregado y jamás recibí nada",negativo,envio
+"Envío carísimo y además demorado",negativo,envio
+"El rastreo no funciona y nadie da razón del pedido",negativo,envio
+"Cobraron un recargo que nunca me informaron",negativo,precio
+"Está carísimo comparado con la competencia",negativo,precio
+"Me cobraron dos veces y no devuelven el dinero",negativo,precio
+"Los precios son un robo, no pienso volver",negativo,precio
+"La promoción era engañosa, el precio real era otro",negativo,precio
+"Pagué muchísimo por algo que no vale tanto",negativo,precio
+"Aumentaron la cuota otra vez, es un abuso",negativo,precio
+"Se rompió al primer uso, es de pésima calidad",negativo,producto
+"La batería dura una hora, qué decepción",negativo,producto
+"El color es diferente a la foto, me siento engañado",negativo,producto
+"Huele mal y el acabado es horrible",negativo,producto
+"Dejó de funcionar a la semana, una basura",negativo,producto
+"La pantalla llegó rayada, muy mal control de calidad",negativo,producto
+"No sirve para nada, lo devolvería",negativo,producto
+"El sonido es pésimo y se escucha entrecortado",negativo,producto
+"Quería saber hasta qué hora atienden los sábados",neutro,servicio
+"Me pasaron con el área de facturación",neutro,servicio
+"Pedí información sobre los planes disponibles",neutro,servicio
+"Agendé una visita técnica para el miércoles",neutro,servicio
+"Pregunté si tienen sucursal en Medellín",neutro,servicio
+"Me enviaron un formulario para llenar",neutro,servicio
+"Hablé con una asesora para actualizar mis datos",neutro,servicio
+"Llené la encuesta de satisfacción por correo",neutro,servicio
+"El pedido salió de la bodega el lunes",neutro,envio
+"Elegí recoger el paquete en la tienda",neutro,envio
+"La guía de envío llegó por mensaje de texto",neutro,envio
+"El domicilio llegó a las cuatro de la tarde",neutro,envio
+"Pedí que lo enviaran a la oficina",neutro,envio
+"El envío tarda entre tres y cinco días hábiles",neutro,envio
+"El paquete llegó en una bolsa plástica",neutro,envio
+"El valor total fue de ciento veinte mil pesos",neutro,precio
+"Pagué por transferencia bancaria",neutro,precio
+"La factura incluye el impuesto del diecinueve por ciento",neutro,precio
+"Compré el plan anual de quinientos mil pesos",neutro,precio
+"El precio de lista está en dólares",neutro,precio
+"Pagué en dos cuotas con la tarjeta",neutro,precio
+"El cobro aparece en el extracto de este mes",neutro,precio
+"El celular tiene seis pulgadas y cámara doble",neutro,producto
+"Pedí la versión blanca con garantía de un año",neutro,producto
+"Es una licuadora de tres velocidades",neutro,producto
+"El empaque trae el manual y la garantía",neutro,producto
+"Compré dos unidades del mismo modelo",neutro,producto
+"La talla que pedí es la grande",neutro,producto
+"El producto viene sellado de fábrica",neutro,producto
+"Es un portátil con dieciséis gigas de memoria",neutro,producto
+"Mi pedido llegó tarde otra vez, qué desastre",negativo,envio
+"El paquete venía roto y sucio",negativo,envio
+"Llegó con el empaque roto y faltaban piezas",negativo,envio
+"La entrega fue tardía y el repartidor ni se disculpó",negativo,envio
+"Siempre llega tarde, no vuelvo a pedir aquí",negativo,envio
+"La caja estaba rota y el producto golpeado",negativo,envio

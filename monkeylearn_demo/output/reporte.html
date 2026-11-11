@@ -1,0 +1,58 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Análisis de texto estilo MonkeyLearn</title><style>
+:root{--bg:#f8fafc;--card:#fff;--txt:#0f172a;--sub:#64748b;--line:#e2e8f0;--acc:#4f46e5}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,system-ui,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
+header{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:36px 24px}
+header h1{margin:0 0 6px;font-size:28px}header p{margin:0;opacity:.9}
+main{max-width:1050px;margin:0 auto;padding:24px}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:20px}
+h2{margin:0 0 4px;font-size:20px}.etapa{color:var(--acc);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.sub{color:var(--sub);margin:0 0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:14px}.kpi b{display:block;font-size:28px}.kpi span{color:var(--sub);font-size:13px}
+.fila{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.donut{width:170px;height:170px;border-radius:50%;position:relative;flex:none}
+.donut::after{content:"";position:absolute;inset:34px;background:#fff;border-radius:50%}
+.leyenda div{margin:6px 0}.dot{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px}
+.barra{display:flex;align-items:center;gap:10px;margin:8px 0}.barra .n{width:90px;font-weight:600;text-transform:capitalize}
+.barra .t{flex:1;background:#eef2ff;border-radius:6px;height:22px;overflow:hidden}.barra .t i{display:block;height:100%;background:var(--acc)}
+.barra .v{width:36px;text-align:right;color:var(--sub)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--sub);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+td.c{text-align:center}.tag{padding:2px 9px;border-radius:99px;color:#fff;font-size:12px;font-weight:600}
+.chips span{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:99px;padding:3px 11px;margin:3px 4px 3px 0;font-size:13px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+footer{text-align:center;color:var(--sub);font-size:12px;padding:10px 0 30px}
+@media print{header{background:#4f46e5!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}section{break-inside:avoid}}
+</style></head><body>
+<header><h1>Análisis de texto estilo MonkeyLearn</h1>
+<p>Sentimiento · Temas · Palabras clave, con 16 comentarios de clientes</p></header>
+<main>
+<section><div class="etapa">Resumen</div><h2>Lo más importante</h2><p class="sub">Resultado de analizar los comentarios nuevos con modelos entrenados en 156 ejemplos.</p>
+<div class="cards">
+<div class="kpi"><b>16</b><span>comentarios analizados</span></div>
+<div class="kpi"><b style="color:#16a34a">38%</b><span>positivos</span></div>
+<div class="kpi"><b style="color:#dc2626">38%</b><span>negativos</span></div>
+<div class="kpi"><b>79%</b><span>exactitud del modelo de sentimiento (validación cruzada)</span></div>
+<div class="kpi"><b>83%</b><span>exactitud del modelo de temas (validación cruzada)</span></div>
+</div></section>
+
+<section><div class="etapa">Etapa 1</div><h2>¿Cómo se sienten los clientes?</h2>
+<p class="sub">El modelo lee cada comentario y lo clasifica como positivo, neutro o negativo.</p><div class="fila"><div class="donut" style="background:conic-gradient(#16a34a 0.00% 37.50%, #64748b 37.50% 62.50%, #dc2626 62.50% 100.00%)"></div><div class="leyenda"><div><span class="dot" style="background:#16a34a"></span><b>Positivo</b>: 6 (38%)</div><div><span class="dot" style="background:#64748b"></span><b>Neutro</b>: 4 (25%)</div><div><span class="dot" style="background:#dc2626"></span><b>Negativo</b>: 6 (38%)</div></div></div></section>
+
+<section><div class="etapa">Etapa 2</div><h2>¿De qué hablan?</h2>
+<p class="sub">Cada comentario se asigna a un tema. Abajo se cruza el tema con el sentimiento: los números más altos tienen el color más fuerte.</p>
+<div class="grid3" style="grid-template-columns:1fr 1.4fr"><div><div class="barra"><span class="n">envio</span><span class="t"><i style="width:100%"></i></span><span class="v">5</span></div><div class="barra"><span class="n">servicio</span><span class="t"><i style="width:80%"></i></span><span class="v">4</span></div><div class="barra"><span class="n">producto</span><span class="t"><i style="width:80%"></i></span><span class="v">4</span></div><div class="barra"><span class="n">precio</span><span class="t"><i style="width:60%"></i></span><span class="v">3</span></div></div><div><table><tr><th>Tema</th><th>Positivo</th><th>Neutro</th><th>Negativo</th></tr><tr><td><b>Envio</b></td><td class="c" style="background:#16a34a8e">2</td><td class="c" style="background:#64748b56">1</td><td class="c" style="background:#dc26268e">2</td></tr><tr><td><b>Servicio</b></td><td class="c" style="background:#16a34a8e">2</td><td class="c" style="">0</td><td class="c" style="background:#dc26268e">2</td></tr><tr><td><b>Producto</b></td><td class="c" style="background:#16a34a56">1</td><td class="c" style="background:#64748b8e">2</td><td class="c" style="background:#dc262656">1</td></tr><tr><td><b>Precio</b></td><td class="c" style="background:#16a34a56">1</td><td class="c" style="background:#64748b56">1</td><td class="c" style="background:#dc262656">1</td></tr></table></div></div></section>
+
+<section><div class="etapa">Etapa 3</div><h2>Palabras que más se repiten</h2>
+<p class="sub">El número es cuántas veces aparece la palabra.</p><div class="grid3"><div><h3 style='margin:0 0 6px;font-size:15px'>Todos los comentarios</h3><div class='chips'><span>rápido · 2</span><span>paquete · 2</span><span>producto · 2</span><span>calidad · 2</span><span>excelente · 2</span><span>servicio · 2</span><span>amable · 2</span><span>atención · 1</span></div></div><div><h3 style='margin:0 0 6px;font-size:15px'>Positivos</h3><div class='chips'><span>rápido · 2</span><span>excelente · 2</span><span>amable · 2</span><span>atención · 1</span><span>buena · 1</span><span>ayudaron · 1</span></div></div><div><h3 style='margin:0 0 6px;font-size:15px'>Negativos</h3><div class='chips'><span>envío · 1</span><span>tarde · 1</span><span>paquete · 1</span><span>roto · 1</span><span>caro · 1</span><span>vale · 1</span></div></div></div></section>
+
+<section><div class="etapa">Detalle</div><h2>Cada comentario clasificado</h2>
+<p class="sub">El porcentaje pequeño es la confianza del modelo en su respuesta.</p>
+<table><tr><th>Comentario</th><th>Sentimiento</th><th>Tema</th></tr><tr><td>La atención fue muy buena, me ayudaron rápido</td><td><span class="tag" style="background:#16a34a">positivo</span> <small>92%</small></td><td>servicio <small>92%</small></td></tr><tr><td>El envío llegó tarde y el paquete estaba roto</td><td><span class="tag" style="background:#dc2626">negativo</span> <small>79%</small></td><td>envio <small>100%</small></td></tr><tr><td>Está muy caro, no vale la pena</td><td><span class="tag" style="background:#dc2626">negativo</span> <small>94%</small></td><td>precio <small>72%</small></td></tr><tr><td>Me encantó el producto, la calidad es excelente</td><td><span class="tag" style="background:#16a34a">positivo</span> <small>92%</small></td><td>producto <small>90%</small></td></tr><tr><td>Pedí el televisor el martes</td><td><span class="tag" style="background:#64748b">neutro</span> <small>94%</small></td><td>producto <small>40%</small></td></tr><tr><td>Nadie contesta el chat de soporte, pésimo servicio</td><td><span class="tag" style="background:#dc2626">negativo</span> <small>93%</small></td><td>servicio <small>96%</small></td></tr><tr><td>Buen precio y llegó rápido</td><td><span class="tag" style="background:#16a34a">positivo</span> <small>94%</small></td><td>envio <small>56%</small></td></tr><tr><td>El celular se dañó a la semana, muy mala calidad</td><td><span class="tag" style="background:#dc2626">negativo</span> <small>94%</small></td><td>producto <small>93%</small></td></tr><tr><td>Compré el plan básico con tarjeta</td><td><span class="tag" style="background:#64748b">neutro</span> <small>90%</small></td><td>precio <small>81%</small></td></tr><tr><td>El domiciliario fue amable pero se demoró mucho</td><td><span class="tag" style="background:#16a34a">positivo</span> <small>67%</small></td><td>envio <small>53%</small></td></tr><tr><td>Las ofertas de noviembre son geniales</td><td><span class="tag" style="background:#16a34a">positivo</span> <small>75%</small></td><td>precio <small>74%</small></td></tr><tr><td>No me resolvieron el problema con la factura</td><td><span class="tag" style="background:#dc2626">negativo</span> <small>47%</small></td><td>servicio <small>65%</small></td></tr><tr><td>El producto es de color azul y trae cargador</td><td><span class="tag" style="background:#64748b">neutro</span> <small>85%</small></td><td>producto <small>97%</small></td></tr><tr><td>Excelente servicio, el asesor fue muy amable</td><td><span class="tag" style="background:#16a34a">positivo</span> <small>95%</small></td><td>servicio <small>97%</small></td></tr><tr><td>Demasiado costoso y encima llegó dañado</td><td><span class="tag" style="background:#dc2626">negativo</span> <small>90%</small></td><td>envio <small>44%</small></td></tr><tr><td>El paquete llegó el viernes</td><td><span class="tag" style="background:#64748b">neutro</span> <small>71%</small></td><td>envio <small>98%</small></td></tr></table></section>
+
+<section><div class="etapa">Contexto</div><h2>¿Qué era MonkeyLearn y cómo se relaciona con esta demo?</h2>
+<p class="sub">MonkeyLearn fue una plataforma web de análisis de texto sin programar. Medallia la adquirió en 2022 y el servicio independiente se cerró en 2023. Esta demo reproduce sus funciones principales con herramientas libres.</p>
+<table><tr><th>Lo que hacía MonkeyLearn</th><th>Equivalente en esta demo</th></tr><tr><td>Sentiment Analysis (sentimiento)</td><td>Etapa 1: clasificador de sentimiento entrenado con ejemplos</td></tr><tr><td>Topic Classifier (clasificar por tema)</td><td>Etapa 2: clasificador de temas entrenado con ejemplos</td></tr><tr><td>Keyword Extractor (palabras clave)</td><td>Etapa 3: conteo de palabras relevantes por sentimiento</td></tr><tr><td>Entrenar modelos propios con clics (No-Code)</td><td>Aquí: se edita un CSV con ejemplos y se vuelve a ejecutar</td></tr><tr><td>Dashboards y gráficas</td><td>Etapa 4: este reporte HTML</td></tr><tr><td>API para conectar con otras apps</td><td>Aquí: las funciones de la carpeta mldemo/ se importan desde cualquier script</td></tr></table></section>
+</main><footer>Generado con Python y scikit-learn</footer></body></html>

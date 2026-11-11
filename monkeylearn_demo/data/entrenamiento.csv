@@ -1,0 +1,61 @@
+texto,sentimiento,tema
+"Excelente atención, el asesor resolvió mi problema en minutos",positivo,servicio
+"El soporte fue amable y muy rápido, quedé feliz",positivo,servicio
+"Me encantó el trato del personal, volveré pronto",positivo,servicio
+"La atención en tienda fue espectacular",positivo,servicio
+"Agradezco la ayuda, un servicio de primera",positivo,servicio
+"Siempre me atienden con una sonrisa, excelente servicio",positivo,servicio
+"El pedido llegó antes de lo esperado y bien empacado",positivo,envio
+"Entrega rapidísima, todo perfecto",positivo,envio
+"El domiciliario fue puntual y muy cordial",positivo,envio
+"Llegó en perfecto estado, envío muy rápido",positivo,envio
+"Seguimiento del envío claro y llegó rápido",positivo,envio
+"Muy buen precio para la calidad que ofrece",positivo,precio
+"Las ofertas son geniales, ahorré bastante",positivo,precio
+"Precio justo y con descuentos reales",positivo,precio
+"Barato y bueno, una compra inteligente",positivo,precio
+"El producto superó mis expectativas, de excelente calidad",positivo,producto
+"Me encanta, funciona perfecto y se ve hermoso",positivo,producto
+"Gran calidad, lo recomiendo totalmente",positivo,producto
+"Muy buen material y excelente acabado",positivo,producto
+"Súper recomendado, quedé encantado con la compra",positivo,producto
+"Pésima atención, nadie me supo responder",negativo,servicio
+"El soporte tardó una semana en contestar, muy decepcionante",negativo,servicio
+"Me trataron mal y no resolvieron nada",negativo,servicio
+"Nunca contestan el teléfono, servicio terrible",negativo,servicio
+"La asesora fue muy grosera y mal informada",negativo,servicio
+"El pedido llegó tarde y con la caja rota",negativo,envio
+"Llevo dos semanas esperando y no llega, pésimo",negativo,envio
+"El envío se perdió y nadie responde",negativo,envio
+"Entrega demorada y sin ninguna información",negativo,envio
+"Demasiado caro para lo que ofrece",negativo,precio
+"Subieron el precio sin avisar, es un abuso",negativo,precio
+"Cobran de más y los descuentos son falsos",negativo,precio
+"No vale lo que cuesta, una estafa",negativo,precio
+"El producto llegó dañado y de mala calidad",negativo,producto
+"Se dañó a los dos días, muy malo",negativo,producto
+"Mala calidad, se ve barato y falla",negativo,producto
+"Terrible, no funciona como lo prometen",negativo,producto
+"Muy decepcionado, el material es horrible",negativo,producto
+"Defectuoso desde el primer uso",negativo,producto
+"Una porquería, no lo recomiendo para nada",negativo,producto
+"Llamé para preguntar por el horario de atención",neutro,servicio
+"Me atendieron en la sucursal del centro",neutro,servicio
+"Hablé con un asesor sobre el cambio de plan",neutro,servicio
+"Solicité una cita para el martes",neutro,servicio
+"Pregunté por los métodos de pago disponibles",neutro,servicio
+"El pedido llegó el jueves por la tarde",neutro,envio
+"Hice el pedido el lunes y usaron transportadora",neutro,envio
+"El paquete viene en una caja de cartón",neutro,envio
+"Pedí envío a domicilio a la dirección registrada",neutro,envio
+"El precio aparece en la página en pesos colombianos",neutro,precio
+"Compré el plan mensual de veinte mil pesos",neutro,precio
+"Pagué con tarjeta de crédito en una cuota",neutro,precio
+"La factura llegó al correo electrónico",neutro,precio
+"El producto viene en color negro",neutro,producto
+"Compré el modelo de 128 gigas",neutro,producto
+"El manual trae instrucciones en varios idiomas",neutro,producto
+"Es un televisor de cuarenta y tres pulgadas",neutro,producto
+"Pedí la talla mediana del mismo modelo",neutro,producto
+"El producto incluye cargador y cable",neutro,producto
+"El equipo pesa dos kilos",neutro,producto

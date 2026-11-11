@@ -1,0 +1,17 @@
+﻿texto,sentimiento,conf_sent,tema,conf_tema
+"La atención fue muy buena, me ayudaron rápido",positivo,0.9233420361008937,servicio,0.9163664598399972
+El envío llegó tarde y el paquete estaba roto,negativo,0.7878144600731913,envio,0.9971682943933344
+"Está muy caro, no vale la pena",negativo,0.9369870010138004,precio,0.7226064299229473
+"Me encantó el producto, la calidad es excelente",positivo,0.9162515118151981,producto,0.9022915215888917
+Pedí el televisor el martes,neutro,0.9404023700387995,producto,0.39560944639345325
+"Nadie contesta el chat de soporte, pésimo servicio",negativo,0.9349764394204053,servicio,0.9620383906472917
+Buen precio y llegó rápido,positivo,0.9445096833112512,envio,0.5553222969672237
+"El celular se dañó a la semana, muy mala calidad",negativo,0.9448736948533621,producto,0.930653875286338
+Compré el plan básico con tarjeta,neutro,0.8998557100582264,precio,0.8139940911061594
+El domiciliario fue amable pero se demoró mucho,positivo,0.6720790984824629,envio,0.5266261223992597
+Las ofertas de noviembre son geniales,positivo,0.7462807264205988,precio,0.7370366717322046
+No me resolvieron el problema con la factura,negativo,0.46787121770716994,servicio,0.6532473133102087
+El producto es de color azul y trae cargador,neutro,0.8544373073971125,producto,0.9697917354817134
+"Excelente servicio, el asesor fue muy amable",positivo,0.9527404158738536,servicio,0.9654428838714443
+Demasiado costoso y encima llegó dañado,negativo,0.9046484487660901,envio,0.43596158959556025
+El paquete llegó el viernes,neutro,0.7106779650946733,envio,0.9836672469443275

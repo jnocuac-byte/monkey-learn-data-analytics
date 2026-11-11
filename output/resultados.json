@@ -1,0 +1,114 @@
+[
+  {
+    "texto": "La atención fue muy buena, me ayudaron rápido",
+    "sentimiento": "positivo",
+    "conf_sent": 0.9233420361008935,
+    "tema": "servicio",
+    "conf_tema": 0.9163664598399904
+  },
+  {
+    "texto": "El envío llegó tarde y el paquete estaba roto",
+    "sentimiento": "negativo",
+    "conf_sent": 0.7878144600731907,
+    "tema": "envio",
+    "conf_tema": 0.9971682943933344
+  },
+  {
+    "texto": "Está muy caro, no vale la pena",
+    "sentimiento": "negativo",
+    "conf_sent": 0.9369870010138004,
+    "tema": "precio",
+    "conf_tema": 0.7226064299229475
+  },
+  {
+    "texto": "Me encantó el producto, la calidad es excelente",
+    "sentimiento": "positivo",
+    "conf_sent": 0.916251511815198,
+    "tema": "producto",
+    "conf_tema": 0.9022915215888943
+  },
+  {
+    "texto": "Pedí el televisor el martes",
+    "sentimiento": "neutro",
+    "conf_sent": 0.9404023700387995,
+    "tema": "producto",
+    "conf_tema": 0.3956094463934562
+  },
+  {
+    "texto": "Nadie contesta el chat de soporte, pésimo servicio",
+    "sentimiento": "negativo",
+    "conf_sent": 0.9349764394204051,
+    "tema": "servicio",
+    "conf_tema": 0.9620383906472902
+  },
+  {
+    "texto": "Buen precio y llegó rápido",
+    "sentimiento": "positivo",
+    "conf_sent": 0.9445096833112508,
+    "tema": "envio",
+    "conf_tema": 0.5553222969672313
+  },
+  {
+    "texto": "El celular se dañó a la semana, muy mala calidad",
+    "sentimiento": "negativo",
+    "conf_sent": 0.9448736948533624,
+    "tema": "producto",
+    "conf_tema": 0.9306538752863383
+  },
+  {
+    "texto": "Compré el plan básico con tarjeta",
+    "sentimiento": "neutro",
+    "conf_sent": 0.8998557100582264,
+    "tema": "precio",
+    "conf_tema": 0.8139940911061568
+  },
+  {
+    "texto": "El domiciliario fue amable pero se demoró mucho",
+    "sentimiento": "positivo",
+    "conf_sent": 0.6720790984824623,
+    "tema": "envio",
+    "conf_tema": 0.5266261223992729
+  },
+  {
+    "texto": "Las ofertas de noviembre son geniales",
+    "sentimiento": "positivo",
+    "conf_sent": 0.7462807264205981,
+    "tema": "precio",
+    "conf_tema": 0.7370366717322054
+  },
+  {
+    "texto": "No me resolvieron el problema con la factura",
+    "sentimiento": "negativo",
+    "conf_sent": 0.46787121770717,
+    "tema": "servicio",
+    "conf_tema": 0.6532473133101928
+  },
+  {
+    "texto": "El producto es de color azul y trae cargador",
+    "sentimiento": "neutro",
+    "conf_sent": 0.8544373073971128,
+    "tema": "producto",
+    "conf_tema": 0.969791735481714
+  },
+  {
+    "texto": "Excelente servicio, el asesor fue muy amable",
+    "sentimiento": "positivo",
+    "conf_sent": 0.9527404158738533,
+    "tema": "servicio",
+    "conf_tema": 0.9654428838714417
+  },
+  {
+    "texto": "Demasiado costoso y encima llegó dañado",
+    "sentimiento": "negativo",
+    "conf_sent": 0.9046484487660901,
+    "tema": "envio",
+    "conf_tema": 0.43596158959555426
+  },
+  {
+    "texto": "El paquete llegó el viernes",
+    "sentimiento": "neutro",
+    "conf_sent": 0.7106779650946746,
+    "tema": "envio",
+    "conf_tema": 0.9836672469443275
+  }
+]
